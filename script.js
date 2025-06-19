@@ -24,66 +24,100 @@ class LanguageTranslator {
   }
 
   loadFallbackLanguages() {
-    // Fallback language list in case API fails
-    this.languages = [
-      { code: "en", name: "English" },
-      { code: "es", name: "Spanish" },
-      { code: "fr", name: "French" },
-      { code: "de", name: "German" },
-      { code: "it", name: "Italian" },
-      { code: "pt", name: "Portuguese" },
-      { code: "ru", name: "Russian" },
-      { code: "ja", name: "Japanese" },
-      { code: "ko", name: "Korean" },
-      { code: "zh", name: "Chinese" },
-      { code: "ar", name: "Arabic" },
-      { code: "hi", name: "Hindi" },
-      { code: "tr", name: "Turkish" },
-      { code: "pl", name: "Polish" },
-      { code: "nl", name: "Dutch" },
-      { code: "sv", name: "Swedish" },
-      { code: "da", name: "Danish" },
-      { code: "no", name: "Norwegian" },
-      { code: "fi", name: "Finnish" },
-      { code: "el", name: "Greek" },
-      { code: "he", name: "Hebrew" },
-      { code: "th", name: "Thai" },
-      { code: "vi", name: "Vietnamese" },
-      { code: "id", name: "Indonesian" },
-      { code: "ms", name: "Malay" },
-      { code: "tl", name: "Filipino" },
-      { code: "sw", name: "Swahili" },
-      { code: "so", name: "Somali" },
-      { code: "am", name: "Amharic" },
-      { code: "yo", name: "Yoruba" },
-      { code: "ig", name: "Igbo" },
-      { code: "ha", name: "Hausa" },
-      { code: "zu", name: "Zulu" },
-      { code: "af", name: "Afrikaans" },
-      { code: "sq", name: "Albanian" },
-      { code: "az", name: "Azerbaijani" },
-      { code: "be", name: "Belarusian" },
-      { code: "bn", name: "Bengali" },
-      { code: "bs", name: "Bosnian" },
-      { code: "bg", name: "Bulgarian" },
-      { code: "ca", name: "Catalan" },
-      { code: "hr", name: "Croatian" },
-      { code: "cs", name: "Czech" },
-      { code: "et", name: "Estonian" },
-      { code: "fa", name: "Persian" },
-      { code: "ga", name: "Irish" },
-      { code: "is", name: "Icelandic" },
-      { code: "lv", name: "Latvian" },
-      { code: "lt", name: "Lithuanian" },
-      { code: "mk", name: "Macedonian" },
-      { code: "mt", name: "Maltese" },
-      { code: "ro", name: "Romanian" },
-      { code: "sr", name: "Serbian" },
-      { code: "sk", name: "Slovak" },
-      { code: "sl", name: "Slovenian" },
-      { code: "uk", name: "Ukrainian" },
-      { code: "ur", name: "Urdu" },
-    ]
+    // Use the comprehensive language list
+    const languages = {
+      af: "Afrikaans",
+      am: "Amharic",
+      ar: "Arabic",
+      az: "Azerbaijani",
+      be: "Belarusian",
+      bg: "Bulgarian",
+      bn: "Bengali",
+      ca: "Catalan",
+      cs: "Czech",
+      cy: "Welsh",
+      da: "Danish",
+      de: "German",
+      el: "Greek",
+      en: "English",
+      eo: "Esperanto",
+      es: "Spanish",
+      et: "Estonian",
+      fa: "Persian",
+      fi: "Finnish",
+      fr: "French",
+      ga: "Irish",
+      gl: "Galician",
+      gu: "Gujarati",
+      ha: "Hausa",
+      he: "Hebrew",
+      hi: "Hindi",
+      hr: "Croatian",
+      ht: "Haitian Creole",
+      hu: "Hungarian",
+      hy: "Armenian",
+      id: "Indonesian",
+      is: "Icelandic",
+      it: "Italian",
+      ja: "Japanese",
+      jv: "Javanese",
+      ka: "Georgian",
+      kk: "Kazakh",
+      km: "Khmer",
+      kn: "Kannada",
+      ko: "Korean",
+      ku: "Kurdish",
+      ky: "Kyrgyz",
+      la: "Latin",
+      lo: "Lao",
+      lt: "Lithuanian",
+      lv: "Latvian",
+      mg: "Malagasy",
+      mi: "Maori",
+      mk: "Macedonian",
+      ml: "Malayalam",
+      mn: "Mongolian",
+      mr: "Marathi",
+      ms: "Malay",
+      mt: "Maltese",
+      my: "Burmese",
+      ne: "Nepali",
+      nl: "Dutch",
+      no: "Norwegian",
+      pa: "Punjabi",
+      pl: "Polish",
+      pt: "Portuguese",
+      ro: "Romanian",
+      ru: "Russian",
+      rw: "Kinyarwanda",
+      si: "Sinhala",
+      sk: "Slovak",
+      sl: "Slovenian",
+      so: "Somali",
+      sq: "Albanian",
+      sr: "Serbian",
+      sv: "Swedish",
+      sw: "Swahili",
+      ta: "Tamil",
+      te: "Telugu",
+      th: "Thai",
+      tr: "Turkish",
+      uk: "Ukrainian",
+      ur: "Urdu",
+      uz: "Uzbek",
+      vi: "Vietnamese",
+      xh: "Xhosa",
+      yi: "Yiddish",
+      zh: "Chinese",
+      zu: "Zulu",
+    }
+
+    // Convert to the format expected by the rest of the code
+    this.languages = Object.entries(languages).map(([code, name]) => ({
+      code: code,
+      name: name,
+    }))
+
     this.populateLanguageDropdowns()
   }
 
@@ -91,14 +125,14 @@ class LanguageTranslator {
     const fromSelect = document.getElementById("fromLanguage")
     const toSelect = document.getElementById("toLanguage")
 
-    // Sort languages alphabetically
+    // Sort languages alphabetically by name
     const sortedLanguages = this.languages.sort((a, b) => a.name.localeCompare(b.name))
 
     // Populate "To" dropdown
     sortedLanguages.forEach((lang) => {
       const option = document.createElement("option")
       option.value = lang.code
-      option.textContent = lang.name
+      option.textContent = `${lang.name} (${lang.code})`
       toSelect.appendChild(option)
     })
 
@@ -106,12 +140,13 @@ class LanguageTranslator {
     sortedLanguages.forEach((lang) => {
       const option = document.createElement("option")
       option.value = lang.code
-      option.textContent = lang.name
+      option.textContent = `${lang.name} (${lang.code})`
       fromSelect.appendChild(option)
     })
 
-    // Set default values
-    toSelect.value = "en" // Default to English
+    // Set default values - English to Somali as specified
+    fromSelect.value = "en" // Default to English
+    toSelect.value = "so" // Default to Somali
   }
 
   setupEventListeners() {
